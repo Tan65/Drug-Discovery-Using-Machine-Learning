@@ -1,0 +1,25 @@
+import deepchem as dc
+from deepchem.models import GraphConvModel
+from deepchem.data import NumpyDataset
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+
+# Step 1: Load and preprocess data (example using DeepChem dataset)
+# DeepChem provides various datasets for drug discovery
+# Here we use a mock dataset (you can replace with actual dataset)
+X = np.random.rand(100, 128)  # Features (e.g., molecular representations)
+y = np.random.randint(0, 2, 100)  # Labels (effective drug or not)
+
+# Step 2: Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Step 3: Build and train a DeepChem model
+train_dataset = NumpyDataset(X_train, y_train)
+test_dataset = NumpyDataset(X_test, y_test)
+
+model = GraphConvModel(n_tasks=1, mode='classification')
+model.fit(train_dataset, nb_epoch=10)
+
+# Step 4: Predictions and Evaluation
+y_pred = model.predict(test_dataset)
+print(classification_report(y_test, y_pred))
